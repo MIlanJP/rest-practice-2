@@ -1,6 +1,7 @@
 package com.springrestexercise.demo.controller;
 
 import com.springrestexercise.demo.entity.User;
+import com.springrestexercise.demo.entity.UserRepository;
 import com.springrestexercise.demo.exception.UserErrorResponse;
 import com.springrestexercise.demo.exception.UserNotFoundException;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +16,6 @@ import java.util.*;
 @RestController
 @RequestMapping("/rest")
 public class UserController {
-
 
     List<User> users;
     @PostConstruct
@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @PostMapping
-    public String createUser(){
+    public String createUser(User user){
         return "createUser";
     }
 
