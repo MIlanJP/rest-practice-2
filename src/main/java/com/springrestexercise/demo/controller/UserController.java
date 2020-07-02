@@ -24,11 +24,14 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getUser(){
+    public List<User> getUsers(){
         return users ;
     }
 
-
+    @GetMapping("/users/{userid}")
+    public User getUser(@PathVariable int userid){
+        return users.get(userid-1);
+    }
 
     @PostMapping
     public String createUser(){
