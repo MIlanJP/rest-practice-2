@@ -5,6 +5,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @RestController
@@ -12,16 +13,22 @@ import java.util.*;
 public class UserController {
 
 
-
-    @GetMapping("/users")
-    public List<User> getUser(){
-        List<User> users = new ArrayList<>();
+    List<User> users;
+    @PostConstruct
+    public void loadData(){
+        users = new ArrayList<>();
         users.add(new User("milan","gowda","milano","milan@gmail.cm","123456"));
         users.add(new User("rahul","gowda","rahulo","rahul@gmail.cm","784484"));
         users.add(new User("nikhil","gowda","nikhilno","nikhi@gmail.cm","123456"));
         users.add(new User("vishwa","kumar","vishwo","viahwa@gmail.cm","123456"));
+    }
+
+    @GetMapping("/users")
+    public List<User> getUser(){
         return users ;
     }
+
+
 
     @PostMapping
     public String createUser(){
