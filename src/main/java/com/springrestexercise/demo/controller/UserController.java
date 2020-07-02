@@ -1,8 +1,12 @@
 package com.springrestexercise.demo.controller;
 
 import com.springrestexercise.demo.entity.User;
+import com.springrestexercise.demo.exception.UserErrorResponse;
+import com.springrestexercise.demo.exception.UserNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -30,7 +34,15 @@ public class UserController {
 
     @GetMapping("/users/{userid}")
     public User getUser(@PathVariable int userid){
+        if(userid<=0||userid>users.size())
+            throw new UserNotFoundException("User not Found "+userid);
         return users.get(userid-1);
+        }
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> exceptionHandler(UserNotFoundException e){
+        UserErrorResponse error= new UserErrorResponse(HttpStatus.NOT_FOUND.value(),e.getMessage());
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
