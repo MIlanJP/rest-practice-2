@@ -28,7 +28,10 @@ public class UserController {
         return userService.getById(id);
     }
 
-
-
+    @PostMapping("/users")
+    public void addUser(@RequestBody User user){
+        user.setId(0);
+        userService.save(user);
+    }
 
 }
