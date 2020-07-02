@@ -29,3 +29,8 @@ public class UserService {
          userRepository.deleteById(id);
     }
 
+    public User getByUsername(String username) {
+        List<User> users=userRepository.findAll();
+        return users.stream().filter(u->u.getUsername().equals(username)).findFirst().get();
+    }
+}

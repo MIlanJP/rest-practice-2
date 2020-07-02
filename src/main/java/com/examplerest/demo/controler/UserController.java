@@ -3,9 +3,9 @@ package com.examplerest.demo.controler;
 import com.examplerest.demo.com.User;
 import com.examplerest.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @RestController
@@ -19,8 +19,13 @@ public class UserController {
     }
 
     @GetMapping("/users/{username}")
-    public User getUser(String username){
-        userService.getByUsername(username);
+    public User getByUsername(@PathVariable String username){
+        return userService.getByUsername(username);
+    }
+
+    @GetMapping("/users/id/{id}")
+    public User getById(@PathVariable Integer id){
+        return userService.getById(id);
     }
 
 
