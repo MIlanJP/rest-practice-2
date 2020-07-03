@@ -28,6 +28,20 @@ public class UserController {
         return userService.getById(id);
     }
 
+//    get firstname of the user from username
+    @GetMapping("/users/fullname/{username}")
+    public String getFullNameByPathVariable(@PathVariable String username){
+        User user= userService.getByUsername(username);
+        return user.getFirstName()+" "+user.getLastName();
+    }
+
+    @GetMapping("/users/fullname")
+    public String getFullNameByRequestParam(@RequestParam String username){
+        User user= userService.getByUsername(username);
+        return user.getFirstName()+" "+user.getLastName();
+    }
+
+
     @PostMapping("/users")
     public void addUser(@RequestBody User user){
         user.setId(0);

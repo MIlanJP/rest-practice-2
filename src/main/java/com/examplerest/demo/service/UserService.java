@@ -1,9 +1,14 @@
 package com.examplerest.demo.service;
 
 import com.examplerest.demo.com.User;
+import com.examplerest.demo.exception.UserErrorResponse;
+import com.examplerest.demo.exception.UserNotFoundException;
 import com.examplerest.demo.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.*;
 
@@ -22,7 +27,21 @@ public class UserService {
     }
 
     public User getById(Integer id){
-        return userRepository.findById(id).get();
+        User user=null;
+        try {
+            user= userRepository.findById(id).get();
+        }catch(NoSuchElementException e){
+            throw new UserNotFoundException("User with Id "+id+" not found");
+        }
+        return user;
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<UserErrorResponse> addeException(UserNotFoundException e){
+        UserErrorResponse error = new UserErrorResponse(e.getMessage());
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        error.setTimestamp(System.currentTimeMillis());
+        return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
     }
 
     public void deleteById(Integer id){
