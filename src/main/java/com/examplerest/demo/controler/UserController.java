@@ -1,8 +1,12 @@
 package com.examplerest.demo.controler;
 
 import com.examplerest.demo.com.User;
+import com.examplerest.demo.exception.UserErrorResponse;
+import com.examplerest.demo.exception.UserNotFoundException;
 import com.examplerest.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +29,11 @@ public class UserController {
 
     @GetMapping("/users/id/{id}")
     public User getById(@PathVariable Integer id){
+        try{
         return userService.getById(id);
+    }catch(NoSuchElementException e){
+        throw new UserNotFoundException("User with Id "+id+" not found");
+        }
     }
 
 //    get firstname of the user from username
@@ -39,6 +47,11 @@ public class UserController {
     public String getFullNameByRequestParam(@RequestParam String username){
         User user= userService.getByUsername(username);
         return user.getFirstName()+" "+user.getLastName();
+    }
+
+    @GetMapping("/users/printfullname")
+    public String printFirstNameAndSecondName(@RequestParam String firstName, @RequestParam String secondName){
+        return  firstName+" "+secondName;
     }
 
 
