@@ -1,18 +1,15 @@
-package com.examplerest.demo.controler;
+package com.examplerest.demo.controller;
 
 import com.examplerest.demo.com.User;
-import com.examplerest.demo.exception.UserErrorResponse;
 import com.examplerest.demo.exception.UserNotFoundException;
 import com.examplerest.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 
 @RestController
+@RequestMapping("/api")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -58,6 +55,11 @@ public class UserController {
     @PostMapping("/users")
     public void addUser(@RequestBody User user){
         user.setId(0);
+        userService.save(user);
+    }
+
+    @PutMapping("/users")
+    public void update(@RequestBody User user){
         userService.save(user);
     }
 

@@ -1,24 +1,36 @@
 package com.examplerest.demo.com;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity
+@ApiModel(value = "User" ,description = "User details for User Registration")
 public class User {
     public User() {
     }
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    @ApiModelProperty(value = "User's firstName",required = true)
     private String firstName;
+    @ApiModelProperty(value = "User's username",required = true)
     private String username;
+    @ApiModelProperty(value = "User's lastName",required = true)
     private String lastName;
+    @ApiModelProperty(value = "User's email",required = true)
     private String email;
+    @ApiModelProperty(value = "User's password",required = true)
+
     private String password;
 
     public User( String firstName, String username , String email, String password, String lastName) {
-        this.id = id;
         this.firstName = firstName;
         this.username = username;
         this.lastName = lastName;
